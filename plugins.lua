@@ -129,6 +129,39 @@ local plugins = {
   },
 
   {
+    "RRethy/vim-illuminate",
+    lazy = true,
+    event = "BufRead",
+  },
+
+  {
+    "edluffy/specs.nvim",
+    enabled = false,
+    lazy = true,
+    event = "BufRead",
+    config = function ()
+      require('specs').setup{
+          show_jumps  = true,
+          min_jump = 30,
+          popup = {
+              delay_ms = 0, -- delay before popup displays
+              inc_ms = 10, -- time increments used for fade/resize effects 
+              blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
+              width = 10,
+              winhl = "PMenu",
+              fader = require('specs').linear_fader,
+              -- fader = require('specs').pulse_fader,
+              resizer = require('specs').shrink_resizer
+          },
+          ignore_filetypes = {},
+          ignore_buftypes = {
+              nofile = true,
+          },
+      }
+    end
+  },
+
+  {
     "nvim-telescope/telescope-ui-select.nvim",
     lazy = true,
     event = "BufRead",
@@ -404,7 +437,7 @@ local plugins = {
   {
     'iamcco/markdown-preview.nvim',
     lazy = true,
-    ft = {'markdown'},
+    ft = {'markdown','md'},
     build = "cd app && yarn install",
     opts = overrides.markdown,
     config = function()
