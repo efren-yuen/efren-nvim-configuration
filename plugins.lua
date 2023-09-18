@@ -445,6 +445,18 @@ local plugins = {
     end
   },
 
+  {
+    "aspeddro/slides.nvim",
+    lazy = true,
+    ft = {'markdown', 'md'},
+    config = function ()
+      require'slides'.setup{
+        -- bin = 'sildes',
+        -- fullscreen = true,
+      }
+    end
+  },
+
   -- Debugging
   {
     "mfussenegger/nvim-dap",
