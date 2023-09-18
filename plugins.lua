@@ -447,6 +447,7 @@ local plugins = {
 
   {
     "aspeddro/slides.nvim",
+    enabled = false,
     lazy = true,
     ft = {'markdown', 'md'},
     config = function ()
