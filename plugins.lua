@@ -89,9 +89,21 @@ local plugins = {
     -- config = require("custom.configs.surround").setup(),
   },
 
+  -- todo: not working
+  {
+    'samodostal/image.nvim',
+    enabled = false,
+    lazy = true,
+    ft = {'png', 'jpg', 'jpeg', 'gif', 'bmp'},
+    event = "BufRead",
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+  },
+
   {
     "alexghergh/nvim-tmux-navigation",
-    enable = false,
+    enabled = false,
     lazy = true,
     config = function()
       require'nvim-tmux-navigation'.setup {
@@ -109,7 +121,25 @@ local plugins = {
   },
 
   {
+    "h-hg/fcitx.nvim",
+    enabled = false,
+    lazy = true,
+    event = "BufRead",
+  },
+
+  {
+    "keaising/im-select.nvim",
+    enabled = false,
+    lazy = true,
+    event = "BufRead",
+    config = function()
+      require("im_select").setup({})
+    end,
+  },
+
+  {
     "VidocqH/lsp-lens.nvim",
+    enabled = false,
     lazy = true,
     event = "BufRead",
     config = function ()
@@ -192,6 +222,7 @@ local plugins = {
 
   {
     "nvim-focus/focus.nvim",
+    enabled = false,
     version = "*",
     lazy = true,
     event = "VeryLazy",
@@ -411,6 +442,95 @@ local plugins = {
     opts = overrides.jdtls,
   },
 
+  {
+    "Civitasv/cmake-tools.nvim",
+    -- lazy = true,
+    event = "VeryLazy",
+    config = function()
+      require("core.utils").load_mappings("c")
+    end
+    -- config = function ()
+    --   require("cmake-tools").setup {
+    --     cmake_command = "cmake", -- this is used to specify cmake command path
+    --     cmake_regenerate_on_save = true, -- auto generate when save CMakeLists.txt
+    --     cmake_generate_options = { "-DCMAKE_EXPORT_COMPILE_COMMANDS=1" }, -- this will be passed when invoke `CMakeGenerate`
+    --     cmake_build_options = {}, -- this will be passed when invoke `CMakeBuild`
+    --     -- support macro expansion:
+    --     --       ${kit}
+    --     --       ${kitGenerator}
+    --     --       ${variant:xx}
+    --     cmake_build_directory = "out/${variant:buildType}", -- this is used to specify generate directory for cmake, allows macro expansion
+    --     cmake_soft_link_compile_commands = true, -- this will automatically make a soft link from compile commands file to project root dir
+    --     cmake_compile_commands_from_lsp = false, -- this will automatically set compile commands file location using lsp, to use it, please set `cmake_soft_link_compile_commands` to false
+    --     cmake_kits_path = nil, -- this is used to specify global cmake kits path, see CMakeKits for detailed usage
+    --     cmake_variants_message = {
+    --       short = { show = true }, -- whether to show short message
+    --       long = { show = true, max_length = 40 }, -- whether to show long message
+    --     },
+    --     cmake_dap_configuration = { -- debug settings for cmake
+    --       name = "cpp",
+    --       type = "codelldb",
+    --       request = "launch",
+    --       stopOnEntry = false,
+    --       runInTerminal = true,
+    --       console = "integratedTerminal",
+    --     },
+    --     cmake_executor = { -- executor to use
+    --       name = "quickfix", -- name of the executor
+    --       opts = {}, -- the options the executor will get, possible values depend on the executor type. See `default_opts` for possible values.
+    --       default_opts = { -- a list of default and possible values for executors
+    --         quickfix = {
+    --           show = "always", -- "always", "only_on_error"
+    --           position = "belowright", -- "bottom", "top"
+    --           size = 10,
+    --         },
+    --         overseer = {
+    --           new_task_opts = {}, -- options to pass into the `overseer.new_task` command
+    --           on_new_task = function(task) end, -- a function that gets overseer.Task when it is created, before calling `task:start`
+    --         },
+    --         terminal = {}, -- terminal executor uses the values in cmake_terminal
+    --       },
+    --     },
+    --     cmake_terminal = {
+    --       name = "terminal",
+    --       opts = {
+    --         name = "Main Terminal",
+    --         prefix_name = "[CMakeTools]: ", -- This must be included and must be unique, otherwise the terminals will not work. Do not use a simple spacebar " ", or any generic name
+    --         split_direction = "horizontal", -- "horizontal", "vertical"
+    --         split_size = 11,
+    --
+    --         -- Window handling
+    --         single_terminal_per_instance = true, -- Single viewport, multiple windows
+    --         single_terminal_per_tab = true, -- Single viewport per tab
+    --         keep_terminal_static_location = true, -- Static location of the viewport if avialable
+    --
+    --         -- Running Tasks
+    --         start_insert_in_launch_task = false, -- If you want to enter terminal with :startinsert upon using :CMakeRun
+    --         start_insert_in_other_tasks = false, -- If you want to enter terminal with :startinsert upon launching all other cmake tasks in the terminal. Generally set as false
+    --         focus_on_main_terminal = false, -- Focus on cmake terminal when cmake task is launched. Only used if executor is terminal.
+    --         focus_on_launch_terminal = false, -- Focus on cmake launch terminal when executable target in launched.
+    --       },
+    --     },
+    --     cmake_notifications = {
+    --       enabled = true, -- show cmake execution progress in nvim-notify
+    --       spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }, -- icons used for progress display
+    --       refresh_rate_ms = 100, -- how often to iterate icons
+    --     },
+    --   }
+    -- end
+  },
+
+  -- code runner
+  {
+    "CRAG666/code_runner.nvim",
+    lazy = true,
+    event = "BufRead",
+    config = true,
+    opts = {
+      focus = false,
+    }
+  },
+
 
   {
     "eatgrass/maven.nvim",
@@ -458,45 +578,57 @@ local plugins = {
     end
   },
 
-  -- Debugging
   {
-    "mfussenegger/nvim-dap",
-    -- config = function()
-    --   require("lvim.core.dap").setup()
-    -- end,
-    lazy = true,
-    cmd = {
-      "DapSetLogLevel",
-      "DapShowLog",
-      "DapContinue",
-      "DapToggleBreakpoint",
-      "DapToggleRepl",
-      "DapStepOver",
-      "DapStepInto",
-      "DapStepOut",
-      "DapTerminate",
+    "jay-babu/mason-nvim-dap.nvim",
+    event = "VeryLazy",
+    opts = {
+      handlers = {},
+      ensure_installed = {
+        "codelldb",
+      },
     },
-	  config = require("custom.core.dap"),
     dependencies = {
       {
-        "rcarriga/nvim-dap-ui",
-        config = require("custom.core.dap.dapui")
-      },
-      {
-        "nvim-telescope/telescope-dap.nvim",
+        "mfussenegger/nvim-dap",
+        -- config = function()
+        --   require("lvim.core.dap").setup()
+        -- end,
         lazy = true,
-        event = "BufRead",
-        -- config = require'telescope'.load_extension('dap')
+        cmd = {
+          "DapSetLogLevel",
+          "DapShowLog",
+          "DapContinue",
+          "DapToggleBreakpoint",
+          "DapToggleRepl",
+          "DapStepOver",
+          "DapStepInto",
+          "DapStepOut",
+          "DapTerminate",
+        },
+        config = require("custom.core.dap"),
+        dependencies = {
+          {
+            "rcarriga/nvim-dap-ui",
+            config = require("custom.core.dap.dapui")
+          },
+          {
+            "nvim-telescope/telescope-dap.nvim",
+            lazy = true,
+            event = "BufRead",
+            -- config = require'telescope'.load_extension('dap')
+          },
+          -- {
+          --   "mfussenegger/nvim-dap-python",
+          --   "nvim-neotest/neotest",
+          --   "nvim-neotest/neotest-python",
+          --   lazy = true,
+          --   ft = "py"
+          -- }
+        },
       },
-      -- {
-      --   "mfussenegger/nvim-dap-python",
-      --   "nvim-neotest/neotest",
-      --   "nvim-neotest/neotest-python",
-      --   lazy = true,
-      --   ft = "py"
-      -- }
-    },
+    }
   },
+  -- Debugging
 
 
   -- copilot
@@ -525,7 +657,7 @@ local plugins = {
 			vim.api.nvim_set_keymap('i', '<c-j>', '<Plug>(copilot-next)', { silent = true })
 			vim.api.nvim_set_keymap('i', '<c-k>', '<Plug>(copilot-previous)', { silent = true })
       -- vim.cmd('imap <expr> <Plug>(vimrc:copilot-dummy-map) copilot#Accept("\\<Tab>")')
-			vim.cmd('imap <silent><script><expr> <C-l> copilot#Accept("")')
+			vim.cmd('imap <silent><script><expr> <C-v> copilot#Accept("")')
 			vim.cmd([[
 			let g:copilot_filetypes = {
 	       \ 'TelescopePrompt': v:false,

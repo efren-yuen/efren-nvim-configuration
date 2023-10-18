@@ -51,6 +51,10 @@ M.general = {
 
     ["<leader>ls"] = { "<Cmd>Telescope lsp_document_symbols<CR>", "lsp_document_symbols" },
 
+    -- code running
+    ["<leader>rc"] = { "<Cmd>RunCode<CR>", "run code" },
+    -- ["<leader>rp"] = { "<Cmd>RunProject<CR>", "run project" },
+    ["<leader>rx"] = { "<Cmd>RunClose<CR>", "run close" },
 
     -- ["<leader>ls"] = {
     --   function ()
@@ -101,6 +105,18 @@ M.markdown = {
   }
 }
 
+
+M.c = {
+  plugin = true,
+  n = {
+    ["<leader>lc"] = { "<cmd>CMakeSelectCwd<cr>", "cmake select cwd" },
+    ["<leader>lv"] = { "<cmd>CMakeGenerate<cr>", "cmake generate" },
+    ["<leader>lb"] = { "<cmd>CMakeBuild<cr>", "cmake build" },
+    ["<leader>ln"] = { "<cmd>CMakeRun<cr>", "cmake run" },
+    ["<leader>ds"] = { "<cmd>CMakeDebug<cr>", "cmake debug" },
+  }
+}
+
 M.html = {
   plugin = true, -- Importan
   n = {
@@ -123,6 +139,29 @@ M.python = {
     ["<leader>du"] = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
     ["<leader>ds"] = { "<cmd>lua require'dap'.continue()<cr>", "PY Start" },
     ["<leader>dl"] = { "<cmd>lua require'dapui'.toggle({reset = true})<cr>", "Toggle UI" },
+
+    ["gd"] = {
+      "<Cmd>Telescope lsp_definitions<CR>",
+      -- function()
+      --   vim.lsp.buf.definition()
+      -- end,
+      "LSP definition",
+    },
+
+    ["K"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+      "LSP hover",
+    },
+
+    ["gi"] = {
+      "<Cmd>Telescope lsp_implementations<CR>",
+      -- function()
+      --   vim.lsp.buf.implementation()
+      -- end,
+      "LSP implementation",
+    },
   }
 }
 
