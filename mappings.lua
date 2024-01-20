@@ -30,6 +30,16 @@ local M = {}
 --     }
 -- }
 
+-- 定义一个函数来设置断点条件
+-- function set_breakpoint_condition()
+--     local input_condition = vim.fn.input('Enter breakpoint condition: ')
+--     if input_condition and input_condition ~= '' then
+--         -- require('dap').set_breakpoint(input_condition, nil, vim.fn.input('Enter log message: '))
+--         require('dap').toggle_breakpoint(input_condition, nil, vim.fn.input('Enter log message: '))
+--         -- local breakpoint = require('dap').set_breakpoint(input_condition, nil, vim.fn.input('Enter log message: ')
+--         -- breakpoint.set_condition(input_condition)
+--     end
+-- end
 
 
 M.general = {
@@ -56,6 +66,9 @@ M.general = {
     -- ["<leader>rp"] = { "<Cmd>RunProject<CR>", "run project" },
     ["<leader>rx"] = { "<Cmd>RunClose<CR>", "run close" },
 
+
+    ["<leader>fx"] = { "<Cmd>Telescope quickfix<CR>", "quickfix", opts = { noremap = true, silent = true} },
+
     -- ["<leader>ls"] = {
     --   function ()
     --     showSymbolFinder()
@@ -81,6 +94,7 @@ M.general = {
 
 
 
+
   },
 
 }
@@ -100,8 +114,8 @@ M.nvimtree = {
 M.markdown = {
   plugin = true, -- Importan
   n = {
-    ["<leader>ds"] = { "<cmd>MarkdownPreview<cr>", "MD Start" },
-    ["<leader>dd"] = { "<cmd>MarkdownPreviewStop<cr>", "MD Stop" },
+    ["<leader>ms"] = { "<cmd>MarkdownPreview<cr>", "MD Start" },
+    ["<leader>md"] = { "<cmd>MarkdownPreviewStop<cr>", "MD Stop" },
   }
 }
 
@@ -114,6 +128,41 @@ M.c = {
     ["<leader>lb"] = { "<cmd>CMakeBuild<cr>", "cmake build" },
     ["<leader>ln"] = { "<cmd>CMakeRun<cr>", "cmake run" },
     ["<leader>ds"] = { "<cmd>CMakeDebug<cr>", "cmake debug" },
+
+    ["<leader>dt"] = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Breakpoint" },
+    -- breakpoint_condition
+    -- ["<leader>dT"] = { "<cmd>lua set_breakpoint_condition()<CR>", "BreakpointCondition" },
+    ["<leader>dT"] = { function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, "BreakpointCondition" },
+    ["<leader>db"] = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
+    ["<leader>dc"] = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+    ["<leader>dd"] = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+    ["<leader>di"] = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
+    ["<leader>do"] = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
+    ["<leader>du"] = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
+    ["<leader>dl"] = { "<cmd>lua require'dapui'.toggle({reset = true})<cr>", "Toggle UI" },
+
+    ["gd"] = {
+      "<Cmd>Telescope lsp_definitions<CR>",
+      -- function()
+      --   vim.lsp.buf.definition()
+      -- end,
+      "LSP definition",
+    },
+
+    ["K"] = {
+      function()
+        vim.lsp.buf.hover()
+      end,
+      "LSP hover",
+    },
+
+    ["gi"] = {
+      "<Cmd>Telescope lsp_implementations<CR>",
+      -- function()
+      --   vim.lsp.buf.implementation()
+      -- end,
+      "LSP implementation",
+    },
   }
 }
 

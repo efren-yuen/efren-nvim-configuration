@@ -20,6 +20,7 @@ opt.fileencoding = "utf-8" -- the encoding written to a file
 opt.relativenumber = true
 opt.completeopt = { "menuone", "noselect" }
 
+
 -- o config
 o.guifont = "JetBrainsMono Nerd Font:h10"
 
@@ -53,3 +54,7 @@ api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
     callback = set_ime
 })
 
+
+api.nvim_exec([[
+  autocmd BufWritePre * set ff=unix
+]], false)

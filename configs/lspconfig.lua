@@ -39,6 +39,10 @@ local function get_typescript_server_path(root_dir)
   end
 end
 
+-- lspconfig.cssls.setup{
+--   filetypes = { 'css', 'scss', 'less', 'vue'},
+-- }
+
 lspconfig.volar.setup{
   filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'},
   on_new_config = function(new_config, new_root_dir)

@@ -444,8 +444,8 @@ local plugins = {
 
   {
     "Civitasv/cmake-tools.nvim",
-    -- lazy = true,
-    event = "VeryLazy",
+    lazy = true,
+    ft = {"c", "cpp"},
     config = function()
       require("core.utils").load_mappings("c")
     end
@@ -580,6 +580,7 @@ local plugins = {
 
   {
     "jay-babu/mason-nvim-dap.nvim",
+    lazy = true,
     event = "VeryLazy",
     opts = {
       handlers = {},
@@ -609,12 +610,14 @@ local plugins = {
         dependencies = {
           {
             "rcarriga/nvim-dap-ui",
+            lazy = true,
             config = require("custom.core.dap.dapui")
           },
           {
             "nvim-telescope/telescope-dap.nvim",
             lazy = true,
-            event = "BufRead",
+            -- lazy = true,
+            -- event = "BufRead",
             -- config = require'telescope'.load_extension('dap')
           },
           -- {
